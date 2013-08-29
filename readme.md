@@ -1,4 +1,4 @@
-# CakePHP Plugin Upload
+# CakePHP Image Helper
 
 The main goal of this plugin is to give you the ability to resize an image without headache.
 
