@@ -1,6 +1,6 @@
 # CakePHP Image Helper
 
-The main goal of this plugin is to give you the ability to resize an image without headache.
+The main goal of this CakePHP helper is to give you the ability to resize an image without headache.
 
 ## Requirements
 
@@ -10,22 +10,27 @@ The main goal of this plugin is to give you the ability to resize an image witho
 
 ## Installation
 
-Load the plugin using bootstrap.php
+Load the helper at the desired controller. Or just at AppController.php.
 
-    CakePlugin::load('Image'); 
+    public $helpers = array('Image'); 
 
 ## Usage
 
-This plugin is a dead simple helper with only one method 
+Replace the standard function of CakePHP :
+	
+	~~$this->Html->image('path/image.[png|jpg|gif]', 'options' => array());~~
 
-	$this->Image->resize('/img/avatar/1.png', 40, 40)
-	// Will generate a resized image /img/avatar/1_40x40.png (transparency is kept)
+	$this->Image->resize('path/image.[png|jpg|gif]', width, height, 'options' => array(), 'quality' => 100);
+
+	// Will generate a resized image path/image_widthxheight.[png|jpg|gif] (transparency is kept)
 	// will output 
 
-	<img src="/img/avatar/1_40x40.png" width="40" height="40"/>
+	<img src="path/image_widthxheight.[png|jpg|gif]" width="width" height="height"/>
 
 The 4th parameter is the same than the 2nd parameter of **HtmlHelper::image()**
 
+The 5th parameter is the image quality
+
 If you only want to get the "generated" image path 
 
-	$this->Image->resizedUrl('/img/avatar/1.png', 40, 40); 
+	$this->Image->resizedUrl('path/image.[png|jpg|gif]', width, height, 'quality' => 100);

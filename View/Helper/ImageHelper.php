@@ -1,8 +1,26 @@
 <?php
+/**
+ * Image Helper class file.
+ *
+ * Generate an image with a specific size.
+ *
+ *
+ * @package       Cake.View.Helper
+ * @since         CakePHP(tm) v 1.1
+ */
+
+App::uses('AppHelper', 'View/Helper');
+
+/**
+ * Image Helper class for generate an image with a specific size.
+ *
+ * ImageHelper encloses 2 method needed while resizing images.
+ *
+ * @package       View.Helper
+ */
 class ImageHelper extends AppHelper{
 
     public $helpers = array('Html','Form');
-    public $quality = 80;
 
     /**
      * Generate an image with a specific size
@@ -10,22 +28,36 @@ class ImageHelper extends AppHelper{
      * @param  int      $width
      * @param  int      $height
      * @param  array    $options Options (same that HtmlHelper::image)
+     * @param  int      $quality
      * @return string   <img> tag
      */
-    public function resize($image, $width, $height, $options = array()){
+    public function resize($image, $width, $height, $options = array(), $quality = 100){
         $options['width'] = $width;
         $options['height'] = $height;
-        return $this->Html->image($this->resizedUrl($image, $width, $height), $options);
+        return $this->Html->image($this->resizedUrl($image, $width, $height, $quality), $options);
     }
 
-    public function resizedUrl($file, $width, $height){
+
+    /**
+     * Create an image with a specific size
+     * @param  string   $file   Path of the image (from the webroot directory)
+     * @param  int      $width
+     * @param  int      $height
+     * @param  array    $options Options (same that HtmlHelper::image)
+     * @param  int      $quality
+     * @return string   image path
+     */
+    public function resizedUrl($file, $width, $height, $quality = 100){
+
+        # We define the image dir include Theme support
+        $imageDir = (!isset($this->theme)) ? IMAGES : APP.'View'.DS.'Themed'.DS.$this->theme.DS.'webroot'.DS.'img'.DS;
 
         # We find the right file
         $pathinfo   = pathinfo(trim($file, '/'));
-        $file       = WWW_ROOT . trim($file, '/');
+        $file       = $imageDir . trim($file, '/');
         $output     = $pathinfo['dirname'] . '/' . $pathinfo['filename'] . '_' . $width . 'x' . $height . '.' . $pathinfo['extension'];
 
-        if (!file_exists(WWW_ROOT . $output)) {
+        if (!file_exists($imageDir . $output)) {
 
             # Setting defaults and meta
             $info                         = getimagesize($file);
@@ -81,14 +113,14 @@ class ImageHelper extends AppHelper{
 
             # Writing image according to type to the output destination and image quality
             switch ( $info[2] ) {
-              case IMAGETYPE_GIF:   imagegif($image_resized, WWW_ROOT . $output, $this->quality);    break;
-              case IMAGETYPE_JPEG:  imagejpeg($image_resized, WWW_ROOT . $output, $this->quality);   break;
-              case IMAGETYPE_PNG:   imagepng($image_resized, WWW_ROOT . $output, 9);    break;
+              case IMAGETYPE_GIF:   imagegif($image_resized, $imageDir . $output, $quality);    break;
+              case IMAGETYPE_JPEG:  imagejpeg($image_resized, $imageDir . $output, $quality);   break;
+              case IMAGETYPE_PNG:   imagepng($image_resized, $imageDir . $output, 9);    break;
               default: return false;
             }
         }
 
-        return '/' . $output;
+        return $output;
     }
 
 }
