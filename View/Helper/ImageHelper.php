@@ -50,14 +50,24 @@ class ImageHelper extends AppHelper{
     public function resizedUrl($file, $width, $height, $quality = 100){
 
         # We define the image dir include Theme support
-        $imageDir = (!isset($this->theme)) ? IMAGES : APP.'View'.DS.'Themed'.DS.$this->theme.DS.'webroot'.DS.'img'.DS;
+        # $imageDir = (!isset($this->theme)) ? IMAGES : APP.'View'.DS.'Themed'.DS.$this->theme.DS.'webroot'.DS.'img'.DS;
+
+
+        # Image dir using assetUrl (search in Theme or webroot)
+        $assetImageDir = dirname($this->assetUrl($file));
+
+        # Remove img/ prefix
+        $assetImageDir = trim(preg_replace('#'.preg_quote(Configure::read('App.imageBaseUrl')).'#','',$assetImageDir),'/');
+
+        # Full image dir
+        $imageDir = realpath(IMAGES.$assetImageDir);
 
         # We find the right file
         $pathinfo   = pathinfo(trim($file, '/'));
-        $file       = $imageDir . trim($file, '/');
-        $output     = $pathinfo['dirname'] . '/' . $pathinfo['filename'] . '_' . $width . 'x' . $height . '.' . $pathinfo['extension'];
+        $file       = $imageDir . DS. trim($pathinfo['filename']. '.' . $pathinfo['extension'], '/');
+        $output     = $pathinfo['filename'] . '_' . $width . 'x' . $height . '.' . $pathinfo['extension'];
 
-        if (!file_exists($imageDir . $output)) {
+        if (!file_exists($imageDir.DS.$output)) {
 
             # Setting defaults and meta
             $info                         = getimagesize($file);
@@ -113,14 +123,14 @@ class ImageHelper extends AppHelper{
 
             # Writing image according to type to the output destination and image quality
             switch ( $info[2] ) {
-              case IMAGETYPE_GIF:   imagegif($image_resized, $imageDir . $output, $quality);    break;
-              case IMAGETYPE_JPEG:  imagejpeg($image_resized, $imageDir . $output, $quality);   break;
-              case IMAGETYPE_PNG:   imagepng($image_resized, $imageDir . $output, 9);    break;
+              case IMAGETYPE_GIF:   imagegif($image_resized, $imageDir.DS.$output, $quality);    break;
+              case IMAGETYPE_JPEG:  imagejpeg($image_resized, $imageDir.DS.$output, $quality);   break;
+              case IMAGETYPE_PNG:   imagepng($image_resized, $imageDir.DS.$output, 9);    break;
               default: return false;
             }
         }
 
-        return $output;
+        return '/'.Configure::read('App.imageBaseUrl').$assetImageDir.'/'.$output;
     }
 
 }
