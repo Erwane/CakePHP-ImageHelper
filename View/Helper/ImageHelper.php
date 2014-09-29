@@ -62,6 +62,11 @@ class ImageHelper extends AppHelper{
         # Full image dir
         $imageDir = realpath(IMAGES.$assetImageDir);
 
+        if ($imageDir === false) {
+          return '/img/';
+          //throw new CakeException(__("Image folder does not exists : %s", array($file)));
+        }
+
         # We find the right file
         $pathinfo   = pathinfo(trim($file, '/'));
         $file       = $imageDir . DS. trim($pathinfo['filename']. '.' . $pathinfo['extension'], '/');
