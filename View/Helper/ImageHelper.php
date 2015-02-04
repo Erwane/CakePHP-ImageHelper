@@ -72,7 +72,7 @@ class ImageHelper extends AppHelper{
         $file       = $imageDir . DS. trim($pathinfo['filename']. '.' . $pathinfo['extension'], '/');
         $output     = $pathinfo['filename'] . '_' . $width . 'x' . $height . '.' . $pathinfo['extension'];
 
-        if (!file_exists($imageDir.DS.$output)) {
+        if (!file_exists($imageDir.DS.$output) && file_exists($file)) {
 
             # Setting defaults and meta
             $info                         = getimagesize($file);
