@@ -1,5 +1,5 @@
 {
-    "name": "grafikart/ImageHelper",
+    "name": "grafikart/image_helper",
     "description": "Grafikart Image Helper",
     "type": "cakephp-plugin",
     "keywords": ["cakephp", "image", "helper"],
