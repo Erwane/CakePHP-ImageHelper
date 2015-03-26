@@ -18,6 +18,6 @@
         "issues": "https://github.com/Grafikart/CakePHP-ImageHelper/issues"
     },
     "extra": {
-        "installer-name": "Media"
+        "installer-name": "ImageHelper"
     }
 }
