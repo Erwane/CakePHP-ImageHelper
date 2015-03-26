@@ -1,0 +1,23 @@
+{
+    "name": "grafikart/ImageHelper",
+    "description": "Grafikart Image Helper",
+    "type": "cakephp-plugin",
+    "keywords": ["cakephp", "image", "helper"],
+    "homepage": "https://github.com/Grafikart/CakePHP-ImageHelper",
+    "license": "",
+    "authors":[
+        {
+            "name": "Jonathan Boyer",
+            "email": "contact@grafikart.fr",
+            "homepage": "http://jonathan-boyer.fr/",
+            "role": "Maintainer"
+        }
+    ],
+    "support": {
+        "source": "https://github.com/Grafikart/CakePHP-ImageHelper",
+        "issues": "https://github.com/Grafikart/CakePHP-ImageHelper/issues"
+    },
+    "extra": {
+        "installer-name": "Media"
+    }
+}
